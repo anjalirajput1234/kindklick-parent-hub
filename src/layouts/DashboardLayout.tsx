@@ -39,6 +39,7 @@ const TITLES: Record<string, { title: string; sub: string }> = {
   "/dashboard/children": { title: "Multi-Child", sub: "" },
   "/dashboard/reports": { title: "Reports", sub: "" },
   "/dashboard/settings": { title: "Settings", sub: "" },
+  "/dashboard/profile": { title: "Profile", sub: "" },
 };
 
 export default function DashboardLayout() {
