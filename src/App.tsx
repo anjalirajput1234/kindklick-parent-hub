@@ -23,6 +23,7 @@ import AIAssistant from "./pages/dashboard/AIAssistant";
 import MultiChild from "./pages/dashboard/MultiChild";
 import Reports from "./pages/dashboard/Reports";
 import Settings from "./pages/dashboard/Settings";
+import ProfilePage from "./pages/dashboard/Profile";
 import ChildDashboard from "./pages/ChildDashboard";
 
 const queryClient = new QueryClient();
@@ -69,6 +70,7 @@ const App = () => (
                   <Route path="children" element={<MultiChild />} />
                   <Route path="reports" element={<Reports />} />
                   <Route path="settings" element={<Settings />} />
+                  <Route path="profile" element={<ProfilePage />} />
                 </Route>
                 <Route path="*" element={<NotFound />} />
               </Routes>
