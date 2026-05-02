@@ -39,6 +39,7 @@ const TITLES: Record<string, { title: string; sub: string }> = {
   "/dashboard/children": { title: "Multi-Child", sub: "" },
   "/dashboard/reports": { title: "Reports", sub: "" },
   "/dashboard/settings": { title: "Settings", sub: "" },
+  "/dashboard/profile": { title: "Profile", sub: "" },
 };
 
 export default function DashboardLayout() {
@@ -157,7 +158,7 @@ export default function DashboardLayout() {
                 <ChevronDown className="w-4 h-4" />
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="rounded-2xl">
-                <DropdownMenuItem className="rounded-xl"><UserIcon className="w-4 h-4 mr-2" /> Profile</DropdownMenuItem>
+                <DropdownMenuItem className="rounded-xl" onClick={() => nav("/dashboard/profile")}><UserIcon className="w-4 h-4 mr-2" /> Profile</DropdownMenuItem>
                 <DropdownMenuItem className="rounded-xl" onClick={() => nav("/dashboard/settings")}><SettingsIcon className="w-4 h-4 mr-2" /> Settings</DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem className="rounded-xl text-danger" onClick={logout}><LogOut className="w-4 h-4 mr-2" /> Logout</DropdownMenuItem>
