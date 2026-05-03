@@ -11,6 +11,7 @@ import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ForgotPassword from "./pages/ForgotPassword";
+import Onboarding from "./pages/Onboarding";
 import NotFound from "./pages/NotFound";
 import DashboardLayout from "./layouts/DashboardLayout";
 import Overview from "./pages/dashboard/Overview";
@@ -23,7 +24,6 @@ import AIAssistant from "./pages/dashboard/AIAssistant";
 import MultiChild from "./pages/dashboard/MultiChild";
 import Reports from "./pages/dashboard/Reports";
 import Settings from "./pages/dashboard/Settings";
-import ProfilePage from "./pages/dashboard/Profile";
 import ChildDashboard from "./pages/ChildDashboard";
 
 const queryClient = new QueryClient();
@@ -59,6 +59,7 @@ const App = () => (
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/onboarding" element={<ProtectedRoute><Onboarding /></ProtectedRoute>} />
                 <Route path="/dashboard" element={<ProtectedRoute><DashboardRouter /></ProtectedRoute>}>
                   <Route index element={<Overview />} />
                   <Route path="history" element={<History />} />
@@ -70,7 +71,6 @@ const App = () => (
                   <Route path="children" element={<MultiChild />} />
                   <Route path="reports" element={<Reports />} />
                   <Route path="settings" element={<Settings />} />
-                  <Route path="profile" element={<ProfilePage />} />
                 </Route>
                 <Route path="*" element={<NotFound />} />
               </Routes>

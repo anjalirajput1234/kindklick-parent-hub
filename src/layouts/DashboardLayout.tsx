@@ -39,7 +39,6 @@ const TITLES: Record<string, { title: string; sub: string }> = {
   "/dashboard/children": { title: "Multi-Child", sub: "" },
   "/dashboard/reports": { title: "Reports", sub: "" },
   "/dashboard/settings": { title: "Settings", sub: "" },
-  "/dashboard/profile": { title: "Profile", sub: "" },
 };
 
 export default function DashboardLayout() {
@@ -114,6 +113,10 @@ export default function DashboardLayout() {
             className="w-full text-left text-xs font-semibold rounded-xl px-3 py-2 bg-accent/10 text-accent hover:bg-accent/20 transition-colors">
             👧 Switch to Child View
           </button>
+          <NavLink to="/onboarding"
+            className="block w-full text-left text-xs font-semibold rounded-xl px-3 py-2 bg-primary/10 text-primary hover:bg-primary/20 transition-colors">
+            🔗 Setup Extension
+          </NavLink>
           <p className="text-[10px] text-muted-foreground text-center">KindKlick v1.0</p>
         </div>
       </aside>
@@ -158,7 +161,7 @@ export default function DashboardLayout() {
                 <ChevronDown className="w-4 h-4" />
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="rounded-2xl">
-                <DropdownMenuItem className="rounded-xl" onClick={() => nav("/dashboard/profile")}><UserIcon className="w-4 h-4 mr-2" /> Profile</DropdownMenuItem>
+                <DropdownMenuItem className="rounded-xl"><UserIcon className="w-4 h-4 mr-2" /> Profile</DropdownMenuItem>
                 <DropdownMenuItem className="rounded-xl" onClick={() => nav("/dashboard/settings")}><SettingsIcon className="w-4 h-4 mr-2" /> Settings</DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem className="rounded-xl text-danger" onClick={logout}><LogOut className="w-4 h-4 mr-2" /> Logout</DropdownMenuItem>
