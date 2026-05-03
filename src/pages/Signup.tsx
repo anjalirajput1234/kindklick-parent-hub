@@ -31,7 +31,7 @@ export default function Signup() {
       email: form.email,
       password: form.password,
       options: {
-        emailRedirectTo: `${window.location.origin}/dashboard`,
+        emailRedirectTo: `${window.location.origin}/onboarding`,
         data: {
           full_name: form.parentName,
           child_name: form.childName,
@@ -51,7 +51,7 @@ export default function Signup() {
       return toast.error(error.message);
     }
     toast.success("Account created! 🎉");
-    nav("/dashboard");
+    nav("/onboarding");
   };
 
   return (
