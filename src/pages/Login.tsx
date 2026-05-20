@@ -27,11 +27,17 @@ export default function Login() {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) { setLoading(false); return toast.error(error.message); }
+    let role: "parent" | "child" = "parent";
+    if (data.user) {
+      const { data: profile } = await supabase
+        .from("profiles").select("role").eq("id", data.user.id).maybeSingle();
+      role = ((profile as any)?.role as "parent" | "child") ?? "parent";
+    }
     setLoading(false);
-    if (error) return toast.error(error.message);
     toast.success("Welcome back! 🎉");
-    nav("/dashboard");
+    nav(role === "child" ? "/child-dashboard" : "/parent-dashboard");
   };
 
   const google = async () => {
