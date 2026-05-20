@@ -5,7 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster as HotToaster } from "react-hot-toast";
 import { AuthProvider, useAuth } from "@/context/AuthContext";
 import { ThemeProvider } from "@/context/ThemeContext";
-import { ViewProvider, useView } from "@/context/ViewContext";
+import { ViewProvider } from "@/context/ViewContext";
 
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
@@ -13,7 +13,8 @@ import Signup from "./pages/Signup";
 import ForgotPassword from "./pages/ForgotPassword";
 import Onboarding from "./pages/Onboarding";
 import NotFound from "./pages/NotFound";
-import DashboardLayout from "./layouts/DashboardLayout";
+import ParentLayout from "./layouts/ParentLayout";
+import ChildLayout from "./layouts/ChildLayout";
 import Overview from "./pages/dashboard/Overview";
 import History from "./pages/dashboard/History";
 import Blocked from "./pages/dashboard/Blocked";
@@ -24,23 +25,35 @@ import AIAssistant from "./pages/dashboard/AIAssistant";
 import MultiChild from "./pages/dashboard/MultiChild";
 import Reports from "./pages/dashboard/Reports";
 import Settings from "./pages/dashboard/Settings";
-import ChildDashboard from "./pages/ChildDashboard";
 
 const queryClient = new QueryClient();
 
-function ProtectedRoute({ children }: { children: JSX.Element }) {
-  const { user, loading } = useAuth();
-  if (loading) return <div className="min-h-screen flex items-center justify-center bg-background">
+const Spinner = () => (
+  <div className="min-h-screen flex items-center justify-center bg-background">
     <div className="w-12 h-12 rounded-full border-4 border-primary/30 border-t-primary animate-spin" />
-  </div>;
+  </div>
+);
+
+function ParentRoute({ children }: { children: JSX.Element }) {
+  const { user, role, loading } = useAuth();
+  if (loading) return <Spinner />;
+  if (!user) return <Navigate to="/login" replace />;
+  if (role === "child") return <Navigate to="/child-dashboard" replace />;
+  return children;
+}
+
+function ChildRoute({ children }: { children: JSX.Element }) {
+  const { user, loading } = useAuth();
+  if (loading) return <Spinner />;
   if (!user) return <Navigate to="/login" replace />;
   return children;
 }
 
-function DashboardRouter() {
-  const { view } = useView();
-  if (view === "child") return <ChildDashboard />;
-  return <DashboardLayout />;
+function RoleRedirect() {
+  const { user, role, loading } = useAuth();
+  if (loading) return <Spinner />;
+  if (!user) return <Navigate to="/login" replace />;
+  return <Navigate to={role === "child" ? "/child-dashboard" : "/parent-dashboard"} replace />;
 }
 
 const App = () => (
@@ -59,8 +72,9 @@ const App = () => (
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
-                <Route path="/onboarding" element={<ProtectedRoute><Onboarding /></ProtectedRoute>} />
-                <Route path="/dashboard" element={<ProtectedRoute><DashboardRouter /></ProtectedRoute>}>
+                <Route path="/onboarding" element={<ParentRoute><Onboarding /></ParentRoute>} />
+
+                <Route path="/parent-dashboard" element={<ParentRoute><ParentLayout /></ParentRoute>}>
                   <Route index element={<Overview />} />
                   <Route path="history" element={<History />} />
                   <Route path="blocked" element={<Blocked />} />
@@ -72,6 +86,13 @@ const App = () => (
                   <Route path="reports" element={<Reports />} />
                   <Route path="settings" element={<Settings />} />
                 </Route>
+
+                <Route path="/child-dashboard" element={<ChildRoute><ChildLayout /></ChildRoute>} />
+
+                {/* Legacy redirects */}
+                <Route path="/dashboard" element={<RoleRedirect />} />
+                <Route path="/dashboard/*" element={<RoleRedirect />} />
+
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </BrowserRouter>
