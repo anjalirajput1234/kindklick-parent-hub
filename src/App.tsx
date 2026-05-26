@@ -25,6 +25,8 @@ import AIAssistant from "./pages/dashboard/AIAssistant";
 import MultiChild from "./pages/dashboard/MultiChild";
 import Reports from "./pages/dashboard/Reports";
 import Settings from "./pages/dashboard/Settings";
+import ChildRouter from "./child/ChildRouter";
+import { ChildRoute as NewChildRoute } from "./child/ChildRoute";
 
 const queryClient = new QueryClient();
 
@@ -88,6 +90,9 @@ const App = () => (
                 </Route>
 
                 <Route path="/child-dashboard" element={<ChildRoute><ChildLayout /></ChildRoute>} />
+
+                {/* New rich Child experience */}
+                <Route path="/child/*" element={<NewChildRoute><ChildRouter /></NewChildRoute>} />
 
                 {/* Legacy redirects */}
                 <Route path="/dashboard" element={<RoleRedirect />} />
